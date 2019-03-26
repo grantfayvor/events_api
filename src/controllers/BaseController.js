@@ -7,6 +7,9 @@ BaseController.prototype.save = function (request, response) {
 };
 
 BaseController.prototype.get = function (request, response) {
+    console.log("===================================");
+    console.log(request.ip);
+    console.log(request.connection.remoteAddress);
     this.store.get(request.query, handleResponse(response));
 };
 

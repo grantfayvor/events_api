@@ -13,6 +13,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('trust proxy', true);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -28,7 +29,6 @@ app.use('/api/events', eventsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  console.log(req.url, req.body);
   next(createError(404));
 });
 
@@ -42,5 +42,16 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated())
+      return next();
+
+  // if they aren't redirect them to the home page
+  res.redirect('/');
+}
 
 module.exports = app;

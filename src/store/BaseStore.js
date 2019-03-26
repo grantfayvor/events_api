@@ -18,6 +18,22 @@ BaseStore.prototype.get = function (query, projections, callback) {
     this.model.find(query, projections, callback);
 };
 
+BaseStore.prototype.getById = function (id, projections, callback) {
+    confirmArguments(arguments, 3, () => {
+        callback = projections;
+        projections = null;
+    });
+    this.model.findById(id, projections, callback);
+};
+
+BaseStore.prototype.getOne = function (query, projections, callback) {
+    confirmArguments(arguments, 3, () => {
+        callback = projections;
+        projections = null;
+    });
+    this.model.findOne(query, projections, callback);
+};
+
 module.exports = BaseStore;
 
 
